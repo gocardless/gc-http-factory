@@ -1,0 +1,7 @@
+dependencies:
+  pre:
+    - npm install -g bower
+
+machine:
+  node:
+    version: 0.10.11

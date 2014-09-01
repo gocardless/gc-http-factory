@@ -1,0 +1,22 @@
+{
+  "name": "gc-http-factory",
+  "version": "0.0.1",
+  "dependencies": {
+    "angular": "1.2.16",
+    "bower-lodash-angular": "git://github.com/gocardless-client/bower-lodash-angular.git",
+    "bower-redefine": "git@github.com:gocardless-client/bower-redefine.git"
+  },
+  "devDependencies": {
+    "angular-mocks": "1.2.16",
+    "jquery": "~2.1.0"
+  },
+  "ignore": [
+    "**/.*",
+    "*.spec.js",
+    "circle.yml",
+    "node_modules",
+    "components",
+    "package.json",
+    "karma.conf.js"
+  ]
+}
