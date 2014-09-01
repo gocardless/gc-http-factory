@@ -1,6 +1,7 @@
 {
   "name": "gc-http-factory",
   "version": "0.0.1",
+  "main": "gc-http-factory.js",
   "dependencies": {
     "angular": "1.2.16",
     "bower-lodash-angular": "git://github.com/gocardless-client/bower-lodash-angular.git",
