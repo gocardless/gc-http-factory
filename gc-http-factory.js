@@ -30,7 +30,7 @@
    *  GET /api/bills/1
    */
 
-  angular.module('ngHttpFactory', [
+  angular.module('gc.httpFactory', [
   ]).service('HttpFactory', [
     '$http', '$q',
     function HttpFactoryService($http, $q) {

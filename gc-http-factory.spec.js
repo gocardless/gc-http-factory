@@ -1,7 +1,7 @@
 'use strict';
 
 describe('HttpFactory', function(){
-  beforeEach(module('ngHttpFactory'));
+  beforeEach(module('gc.httpFactory'));
 
   var HttpFactory, $httpBackend, $rootScope, callback, $q;
 
