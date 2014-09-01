@@ -31,6 +31,8 @@ angular.app('app', [
       url: '/api/submissions/:id/entries'
     }
   });
+
+  return BillHttp;
 });
 
 // in a controller
