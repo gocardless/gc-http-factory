@@ -5,7 +5,7 @@
   "dependencies": {
     "angular": "1.2.16",
     "bower-lodash-angular": "git://github.com/gocardless-client/bower-lodash-angular.git",
-    "bower-redefine": "git@github.com:gocardless-client/bower-redefine.git"
+    "bower-redefine": "git://github.com/gocardless-client/bower-redefine.git"
   },
   "devDependencies": {
     "angular-mocks": "1.2.16",
