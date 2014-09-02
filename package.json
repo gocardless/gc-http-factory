@@ -22,7 +22,7 @@
   },
   "scripts": {
     "postinstall": "bower install",
-    "test": "karma start",
+    "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS",
     "watch": "karma start karma.conf.js --auto-watch --no-single-run"
   }
 }
