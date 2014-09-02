@@ -2,6 +2,8 @@
 
 A module that wraps Angular's `$http` for easy creation of services that talk to an API.
 
+[![Build Status](https://travis-ci.org/gocardless/gc-http-factory.svg?branch=master)](https://travis-ci.org/gocardless/gc-http-factory)
+
 ```
 bower install gc-http-factory
 ```
