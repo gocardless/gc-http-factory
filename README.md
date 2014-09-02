@@ -15,7 +15,8 @@ angular.app('app', [
   var BillHttp = HttpFactory.create({
     url: '/api/bills/:id'
   }, {
-    find: { method: 'GET' },
+    findOne: { method: 'GET' },
+    findAll: { method: 'GET' },
     create: { method: 'POST' }
   });
 
@@ -23,10 +24,10 @@ angular.app('app', [
 });
 
 // elsewhere in your application
-BillHttp.find({params: { id: 1 }}).then(function(data) {...});
+BillHttp.findOne({params: { id: 1 }}).then(function(data) {...});
 //=> GET /api/bills/1
 
-BillHttp.find().then(function(data) {...});
+BillHttp.findAll().then(function(data) {...});
 //=> GET /api/bills
 
 BillHttp.create({
@@ -84,21 +85,32 @@ The cache _will not_ be used. This enables you to provide defaults but override 
 If a method takes parameters, pass in a `params` object when you call it:
 
 ```js
-findOne: {
-  url: '/api/users/:id'
-}
+angular.app('app', ['gc.httpFactory']).factory('BillService', function(HttpFactory) {
+  return HttpFactory.create({
+    // options here
+  }, {
+    findOne: {
+      url: '/api/bills/:id'
+    }
+  }
+});
 
 // called like so:
-
 BillService.findOne({ params: { id: 2 } });
 ```
 
 If a method makes a `POST` and expects data, pass in a `data` object:
 
 ```js
-create: {
-  url: '/api/users'
-}
+angular.app('app', ['gc.httpFactory']).factory('BillService', function(HttpFactory) {
+  return HttpFactory.create({
+    // options here
+  }, {
+    create: {
+      url: '/api/bills/'
+    }
+  }
+});
 
 // called like so:
 
