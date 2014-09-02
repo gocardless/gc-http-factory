@@ -40,7 +40,15 @@ BillHttp.create({
 
 Any configuration options you can pass to `$http`, you can pass to the `create` method of `HttpFactory`, with some notable exceptions, all of which are documented below.
 
-It is important to know that you can passs in configuration options in three places:
+`HttpFactory.create` expects two arguments:
+
+1. an object of configuration options
+2. an object of methods that you would like defined, where each is an object of configuration options for that particular method.
+
+
+#### Configuration Precedence
+
+It is important to know that you can pass in configuration options in three places:
 
 1. In the first object you pass to `HttpFactory.create`
 2. In the object for each method you ask HttpFactory to create
@@ -71,11 +79,37 @@ BillService.find({ cache: false });
 
 The cache _will not_ be used. This enables you to provide defaults but override them in special cases easily enough.
 
+## Passing Parameters and Data
+
+If a method takes parameters, pass in a `params` object when you call it:
+
+```js
+findOne: {
+  url: '/api/users/:id'
+}
+
+// called like so:
+
+BillService.findOne({ params: { id: 2 } });
+```
+
+If a method makes a `POST` and expects data, pass in a `data` object:
+
+```js
+create: {
+  url: '/api/users'
+}
+
+// called like so:
+
+BillService.create({ data: {...} });
+```
+
 ## Interceptors
 
 Our support for interceptors builds on top of what `$http` supports.
 
-Request interceptors can be syncronous or asynchronous and, unlike `$http`, you can pass in an array. Make sure each interceptor function returns either a single value or a promise:
+Request interceptors can be synchronous or asynchronous and, unlike `$http`, you can pass in an array. Make sure each interceptor function returns either a single value or a promise:
 
 ```js
 angular.app('app', [
