@@ -52,7 +52,7 @@ It is important to know that you can pass in configuration options in three plac
 
 1. In the first object you pass to `HttpFactory.create`
 2. In the object for each method you ask HttpFactory to create
-3. WHen you call a method HttpFactory created
+3. When you call a method HttpFactory created
 
 Any configuration passed will override any previous configuration. For example, if you create a service with caching turned on:
 
