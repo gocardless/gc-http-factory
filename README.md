@@ -1,9 +1,9 @@
-# ngHttpFactory
+# gc-http-factory
 
 A module that wraps Angular's `$http` for easy creation of services that talk to an API.
 
 ```
-bower install gocardless/ng-http-factory
+bower install gc-http-factory
 ```
 
 ## Example
@@ -13,40 +13,100 @@ angular.app('app', [
   'gc.httpFactory'
 ]).factory('BillService', function(HttpFactory) {
   var BillHttp = HttpFactory.create({
-    method: 'GET',
     url: '/api/bills/:id'
   }, {
-    find: {
-      interceptor: {
-        response: function(response) {
-          return response.data;
-        },
-        responseError: function(responseError) {
-          return responseError.data;
-        }
-      }
-    },
-    entries: {
-      method: 'GET',
-      url: '/api/submissions/:id/entries'
-    }
+    find: { method: 'GET' },
+    create: { method: 'POST' }
   });
 
   return BillHttp;
 });
 
-// in a controller
-BillHttp.find({params: { id: 1 }})
-  .then(function(responseData) {
-    // do something with data
-  });
- //=> GET /api/bills/1
+// elsewhere in your application
+BillHttp.find({params: { id: 1 }}).then(function(data) {...});
+//=> GET /api/bills/1
+
+BillHttp.find().then(function(data) {...});
+//=> GET /api/bills
+
+BillHttp.create({
+  data: {
+    amount: 200
+  }
+}); //=> POST /api/bills with { amount: 200 }
 ```
 
-## Usage
+## Configuration
 
-Any of the configuration you can pass to `$http`, you can pass to the `create` method of `HttpFactory`.
+Any configuration options you can pass to `$http`, you can pass to the `create` method of `HttpFactory`, with some notable exceptions, all of which are documented below.
+
+It is important to know that you can passs in configuration options in three places:
+
+1. In the first object you pass to `HttpFactory.create`
+2. In the object for each method you ask HttpFactory to create
+3. WHen you call a method HttpFactory created
+
+Any configuration passed will override any previous configuration. For example, if you create a service with caching turned on:
+
+```js
+angular.app('app', [
+  'gc.httpFactory'
+]).factory('BillService', function(HttpFactory) {
+  var BillHttp = HttpFactory.create({
+    url: '/api/bills/:id',
+    cache: true
+  }, {
+    find: { method: 'GET' }
+  });
+
+  return BillHttp;
+});
+```
+
+But then call the method like so:
+
+```js
+BillService.find({ cache: false });
+```
+
+The cache _will not_ be used. This enables you to provide defaults but override them in special cases easily enough.
 
 ## Interceptors
 
-`HttpFactory` supports both async and sync interceptors, which is useful if you need an interceptor to make a request to get some data. Just return either a value or a promise in an interceptor, and `HttpFactory` takes care of the rest.
+Our support for interceptors builds on top of what `$http` supports.
+
+Request interceptors can be syncronous or asynchronous and, unlike `$http`, you can pass in an array. Make sure each interceptor function returns either a single value or a promise:
+
+```js
+angular.app('app', [
+  'gc.httpFactory',
+  'gc.service.user'
+]).factory('BillService', function(HttpFactory, UserService) {
+  var BillHttp = HttpFactory.create({
+    url: '/api/bills/:id',
+    cache: true,
+    interceptor: {
+      request: [
+        // this interceptor is sync
+        function(request) {
+          request.headers['X-Foo'] = 2;
+          return request;
+        },
+        // this interceptor is async
+        function(request) {
+          return UserService.get().then(function(user) {
+            request.headers['X-User-Id'] = user.id;
+            return request;
+          });
+        }
+      ]
+    }
+  }, {
+    find: { method: 'GET' }
+  });
+
+  return BillHttp;
+});
+```
+
+Interceptors will be executed one after the other in series, in the order they are passed in. Even if they are async, it will wait for the previous interceptor to resolve before executing the next one.
