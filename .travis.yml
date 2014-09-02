@@ -3,4 +3,5 @@ node_js:
   - "0.10"
 before_install:
   - npm install -g bower karma
-  - bower install
+  - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+  - bower install -f
