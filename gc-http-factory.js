@@ -35,12 +35,6 @@
     '$http', '$q',
     function HttpFactoryService($http, $q) {
 
-      var enumDescriptors = _.redefine.as({
-        enumerable: true,
-        configurable: true,
-        writable: true
-      });
-
       function error(message) {
         throw new Error(message);
       }
@@ -229,11 +223,11 @@
         _.forEach(_.keys(actions), function(action) {
           var config = actions[action];
           if (_.isObject(config)) {
-            _.redefine(actions, action, _.compose(
+            actions[action] = _.compose(
               request,
               setUrlParams,
               _.partial(cloneConfigs, configDefaults, config)
-            ), enumDescriptors);
+            );
           }
         });
         return actions;

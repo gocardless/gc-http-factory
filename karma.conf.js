@@ -14,8 +14,7 @@ module.exports = function(config) {
     files: [
       "components/jquery/dist/jquery.js",
       "components/angular/angular.js",
-      "components/bower-lodash-angular/lodash.custom.js",
-      "components/bower-redefine/redefine.js",
+      "components/lodash/dist/lodash.js",
       "components/angular-mocks/angular-mocks.js",
       "*.js",
       "*.spec.js"
