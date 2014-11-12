@@ -11,7 +11,7 @@ bower install gc-http-factory
 ## Example
 
 ```js
-angular.app('app', [
+angular.module('app', [
   'gc.httpFactory'
 ]).factory('BillService', function(HttpFactory) {
   var BillHttp = HttpFactory.create({
@@ -60,7 +60,7 @@ It is important to know that you can pass in configuration options in three plac
 Any configuration passed will override any previous configuration. For example, if you create a service with caching turned on:
 
 ```js
-angular.app('app', [
+angular.module('app', [
   'gc.httpFactory'
 ]).factory('BillService', function(HttpFactory) {
   var BillHttp = HttpFactory.create({
@@ -87,7 +87,7 @@ The cache _will not_ be used. This enables you to provide defaults but override 
 If a method takes parameters, pass in a `params` object when you call it:
 
 ```js
-angular.app('app', ['gc.httpFactory']).factory('BillService', function(HttpFactory) {
+angular.module('app', ['gc.httpFactory']).factory('BillService', function(HttpFactory) {
   return HttpFactory.create({
     // options here
   }, {
@@ -104,7 +104,7 @@ BillService.findOne({ params: { id: 2 } });
 If a method makes a `POST` and expects data, pass in a `data` object:
 
 ```js
-angular.app('app', ['gc.httpFactory']).factory('BillService', function(HttpFactory) {
+angular.module('app', ['gc.httpFactory']).factory('BillService', function(HttpFactory) {
   return HttpFactory.create({
     // options here
   }, {
@@ -126,7 +126,7 @@ Our support for interceptors builds on top of what `$http` supports.
 Request interceptors can be synchronous or asynchronous and, unlike `$http`, you can pass in an array. Make sure each interceptor function returns either a single value or a promise:
 
 ```js
-angular.app('app', [
+angular.module('app', [
   'gc.httpFactory',
   'gc.service.user'
 ]).factory('BillService', function(HttpFactory, UserService) {
