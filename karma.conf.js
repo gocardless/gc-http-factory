@@ -14,7 +14,7 @@ module.exports = function(config) {
     files: [
       "components/jquery/dist/jquery.js",
       "components/angular/angular.js",
-      "components/lodash/dist/lodash.js",
+      "components/lodash/lodash.js",
       "components/angular-mocks/angular-mocks.js",
       "*.js",
       "*.spec.js"
@@ -26,7 +26,7 @@ module.exports = function(config) {
 
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit'
-    reporters: ['dots', 'growl'],
+    reporters: ['dots'],
 
     reportSlowerThan: 50,
 

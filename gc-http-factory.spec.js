@@ -298,7 +298,7 @@ describe('HttpFactory', function(){
             interceptor: {
               responseError: function (responseError) {
                 responseError.data.value += 1;
-                return responseError.data;
+                return $q.reject(responseError.data);
               }
             }
           }
@@ -310,6 +310,31 @@ describe('HttpFactory', function(){
 
         expect(resp.value).toEqual(2);
       });
+    });
+  });
+
+  describe('request', function() {
+    it('passes unchanged config to interceptor', function() {
+      $httpBackend.expectGET('/test?enabled=true').respond(500);
+      $httpBackend.expectGET('/new?enabled=true').respond(200);
+
+      var config = {
+        method: 'GET',
+        url: '/test',
+        params: {
+          enabled: true
+        },
+        interceptor: {
+          responseError: function(response) {
+            response.config.url = '/new';
+            return HttpFactory.request(response.config)
+          }
+        }
+      };
+
+      HttpFactory.request(config);
+
+      $httpBackend.flush();
     });
   });
 
