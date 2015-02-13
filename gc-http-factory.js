@@ -173,8 +173,6 @@
         var responseErrorInterceptor = config.interceptor &&
           config.interceptor.responseError || undefined;
 
-        delete config.interceptor;
-
         if (!_.isArray(requestInterceptors)) {
           requestInterceptors = [requestInterceptors];
         }
@@ -189,12 +187,12 @@
           });
         });
 
-
         return $q.when(config).then(function(config) {
           return $http(config)
-            .then(responseInterceptor, function reject(rejection) {
+            .then(responseInterceptor)
+            .catch(function(rejection) {
               if (_.isFunction(responseErrorInterceptor)) {
-                rejection = responseErrorInterceptor(rejection);
+                return responseErrorInterceptor(rejection);
               }
               return $q.reject(rejection);
             });
@@ -256,8 +254,7 @@
        * @param  {Object|undefined} actions
        * @return {Object}
        */
-      this.create = function create(configDefaults, actions) {
-
+      function create(configDefaults, actions) {
         if (!_.isObject(actions)) {
           actions = configDefaults;
           configDefaults = {};
@@ -272,6 +269,8 @@
         return methods(configDefaults, actions);
       };
 
+      this.create = create;
+      this.request = request;
     }
 
   ]);
